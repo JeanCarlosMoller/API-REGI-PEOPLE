@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.aspectj.apache.bcel.Repository;
+import org.hibernate.ObjectNotFoundException;
+import java.util.Optional;
 
 @Table(name = "pessoas")
 @Entity(name = "Pessoa")
@@ -49,6 +52,7 @@ public class Pessoa {
     }
 
     public void excluir() {
+
         this.ativo = false;
     }
 }

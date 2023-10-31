@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/pessoas")
 public class PessoaController {
@@ -52,15 +54,23 @@ public class PessoaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}")
+    /**@GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id) {
         var pessoa = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoPessoa(pessoa));
+    }**/
+
+    @GetMapping("/{cpf}")
+    public ResponseEntity<Pessoa> buscarPorCpf(@PathVariable String cpf) {
+        Optional<Pessoa> pessoa = repository.findByCpfUrl(cpf);
+
+        if (pessoa.isPresent()) {
+            return ResponseEntity.ok(pessoa.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    /*@GetMapping("/{cpf}")
-    public ResponseEntity listarcpf(@RequestParam String cpf) {
-        var pessoa = repository.getByCpf(cpf);
-        return ResponseEntity.ok(new DadosDetalhamentoCPF(pessoa));
-    }*/
+
+
 }

@@ -8,11 +8,12 @@ require_once('phpagi.php');
 $agi = new AGI();
 
 //$cpf_dtmf = "12345678910";
-$cpf_dtmf = "12345675510";
 
-function getData($agi){
+$cpf_dtmf = $agi->get_variable("V_CPF")['data'];
 
-    $url = "http://192.168.1.20:8080/pessoas/1";
+function getData($agi, $cpf_dtmf){
+
+    $url = "http://192.168.1.20:8080/pessoas/" . $cpf_dtmf;
 
     $ch = curl_init($url);
 
@@ -33,7 +34,7 @@ function getData($agi){
 
 function avalia($agi, $cpf_dtmf){
 
-    $ret = getData($agi);
+    $ret = getData($agi, $cpf_dtmf);
 
     $agi->verbose("$$$$$$$$$ CPF $$$$$$$$$$" . $ret->dst_cpf);
     $agi->verbose("$$$$$$$$$ VIP $$$$$$$$$$" . $ret->dst_vip);
@@ -49,7 +50,6 @@ function avalia($agi, $cpf_dtmf){
         $agi->set_variable("V_DESTINO", '1-URA-NAO-VIP,s,1');
 
     }
-
 }
         
 avalia($agi, $cpf_dtmf);
